@@ -1,0 +1,65 @@
+import pygame
+import random
+pygame.init()
+
+#Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
+
+#Setting up screen
+screen_width = 500
+screen_height = screen_width
+screen = pygame.display.set_mode((screen_width, screen_height))
+
+#Should store data about itself, such as whether it contains a mine, uncovered/covered/flagged, number of adjacent mines
+#
+class cell:
+    def __init__(self, row, col):
+        self.col = col
+        self.row = row
+
+        self.mine = False        #First set to False, then if cell is selected, change it to True
+        self.state = "covered"   #Possible states: flagged, covered, uncovered
+        self.adjacent_mines = 0  #Number of mines in cells next to it, integers 0 - 8
+
+    def place_mine(self):        #Later in class board, when placing mines randomly, call this method
+        self.mine = True
+    
+    def reveal(self):
+        if self.state == "uncovered" or self.state == "flagged": 
+            return "ALREADY_UNCOVERED_OR_FLAGGED"
+        
+        self.state = "uncovered" #Otherwise, chagne the self.state to uncovered
+        
+        if self.mine:
+            return "MINE_IS_HIT"
+        
+        elif self.adjacent_mines == 0:   #If there are no adjacent mines, return this value to show keep revealing adjacent cells until it his a cell that has a mine next to it
+            return "NO_ADJACENT_MINES"
+        
+        else:                            #If the cell that has been clicked is one with numbers 1-8. 
+            return "CELL_WITH_NUMBER_REVEALED"
+    
+    def display_cell_char(self):
+
+        if self.state == "flagged":
+            return "F"                        #F for Flagged
+        
+        elif self.state == "covered":
+            return "C"                        #C for Covered
+        
+        elif self.mine == True:
+            return "M"                        #M for Mine
+        
+        elif self.adjacent_mines == 0:
+            return "B"                        #B for Blank
+        
+        else:
+            return str(self.adjacent_mines)   #Returning the number of mines that are adjacent to the cell as a string
+class board:
+    def __init__(self):
+        ...
+
+class game:
+    ...
