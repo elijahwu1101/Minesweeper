@@ -7,3 +7,5 @@
 #Board
 #Game
 
+#Board owns Cell, Cell has individual rights, Board governs where and when Cell does certain action
+
