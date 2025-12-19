@@ -1,7 +1,7 @@
 #Should store data about itself, such as whether it contains a mine, uncovered/covered/flagged, number of adjacent mines
 #
 class cell:
-    def __init__(self, row, col):
+    def __init__(self, row, col, x, y, size):
         self.col = col
         self.row = row
 
@@ -27,20 +27,16 @@ class cell:
         else:                            #If the cell that has been clicked is one with numbers 1-8. 
             return "CELL_WITH_NUMBER_REVEALED"
     
-    def display_cell_char(self):
-
-        if self.state == "flagged":
-            return "F"                        #F for Flagged
-        
-        elif self.state == "covered":
-            return "C"                        #C for Covered
-        
-        elif self.mine == True:
-            return "M"                        #M for Mine
-        
-        elif self.adjacent_mines == 0:
-            return "B"                        #B for Blank
-        
+    def toggle_flag(self):
+        if self.state == "covered":
+            self.state = "flagged"
+        elif self.state == "flagged":
+            self.state = "covered"
         else:
-            return str(self.adjacent_mines)   #Returning the number of mines that are adjacent to the cell as a string
-
+            pass        #Don't do anything if the self.state is not covered or flagged (e.g., uncovered --> dont do anything, because its uncovered)
+            
+    def get_rect(self):
+        ...
+    
+    def draw(self, screen):
+        ...
