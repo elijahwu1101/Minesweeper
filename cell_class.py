@@ -4,6 +4,9 @@ class cell:
     def __init__(self, row, col, x, y, size, border_width):
         self.col = col
         self.row = row
+        self.size = screen_width // 10
+        self.x = x
+        self.y = y
 
         self.mine = False        #First set to False, then if cell is selected, change it to True
         self.state = "covered"   #Possible states: flagged, covered, uncovered
@@ -36,14 +39,22 @@ class cell:
             pass        #Don't do anything if the self.state is not covered or flagged (e.g., uncovered --> dont do anything, because its uncovered)
             
     def get_rect(self):
-        ...
-    
-    def draw(self, screen, x, y, size):
+        return pygame.Rect(
+            self.x,
+            self.y,
+            self.size,
+            self.size
+        )
+        
+    def draw(self, screen):
         border_width = 8
-        size = screen_width // 10
+
         if self.state == "covered":
-            pygame.draw.rect(screen, LIGHT_BLUE, (x, y, size, size), border_width) #Drawing a covered cell
+            pygame.draw.rect(screen, LIGHT_BLUE, (self.x, self.y, self.size, self.size), border_width) #Drawing a covered cell
+
         elif self.state == "uncovered":
-            pygame.draw.rect(screen, GRAY, (x, y, size, size), border_width)
+            pygame.draw.rect(screen, GRAY, (self.x, self.y, self.size, self.size), border_width)
+
         elif self.state == "flagged":
-            pygame.draw.rect(screen, RED, (x, y, size, size), border_width)
+            pygame.draw.rect(screen, RED, (self.x, self.y, self.size, self.size), border_width)
+        
