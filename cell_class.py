@@ -48,13 +48,21 @@ class cell:
         
     def draw(self, screen):
         border_width = 8
+        rect = self.get_rect()
 
         if self.state == "covered":
-            pygame.draw.rect(screen, LIGHT_BLUE, (self.x, self.y, self.size, self.size), border_width) #Drawing a covered cell
+            pygame.draw.rect(screen, LIGHT_BLUE, rect, border_width) #Drawing a covered cell
 
         elif self.state == "uncovered":
-            pygame.draw.rect(screen, GRAY, (self.x, self.y, self.size, self.size), border_width)
+            pygame.draw.rect(screen, GRAY, rect, border_width)
+            if self.mine:
+                pygame.draw.circle(screen, BLACK, rect.center, self.size // 2, width=0) #Drawing if a mine is clicked
+            
+            elif self.adjacent_mines > 0:
+                number = str(self.adjacent_mines)
+                font = pygame.font.SysFont(None, self.size)
+                display_number = font.render(number, True, BLACK)
+                screen.blit(screen, (self.x, self.y))
 
         elif self.state == "flagged":
-            pygame.draw.rect(screen, RED, (self.x, self.y, self.size, self.size), border_width)
-        
+            pygame.draw.rect(screen, RED, rect, border_width)
