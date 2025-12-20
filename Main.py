@@ -5,19 +5,25 @@ pygame.init()
 #Colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+GRAY = (128, 128, 128)
 BLUE = (0, 0, 255)
+LIGHT_BLUE = (173, 216, 230)
+RED = (255, 0, 0)
 
 #Setting up screen
-screen_width = 500
+screen_width = 300
 screen_height = screen_width
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 #Should store data about itself, such as whether it contains a mine, uncovered/covered/flagged, number of adjacent mines
 #
 class cell:
-    def __init__(self, row, col):
+    def __init__(self, row, col, x, y, size, border_width):
         self.col = col
         self.row = row
+        self.size = screen_width // 10
+        self.x = x
+        self.y = y
 
         self.mine = False        #First set to False, then if cell is selected, change it to True
         self.state = "covered"   #Possible states: flagged, covered, uncovered
@@ -41,25 +47,56 @@ class cell:
         else:                            #If the cell that has been clicked is one with numbers 1-8. 
             return "CELL_WITH_NUMBER_REVEALED"
     
-    def display_cell_char(self):
-
-        if self.state == "flagged":
-            return "F"                        #F for Flagged
-        
-        elif self.state == "covered":
-            return "C"                        #C for Covered
-        
-        elif self.mine == True:
-            return "M"                        #M for Mine
-        
-        elif self.adjacent_mines == 0:
-            return "B"                        #B for Blank
-        
+    def toggle_flag(self):
+        if self.state == "covered":
+            self.state = "flagged"
+        elif self.state == "flagged":
+            self.state = "covered"
         else:
-            return str(self.adjacent_mines)   #Returning the number of mines that are adjacent to the cell as a string
+            pass        #Don't do anything if the self.state is not covered or flagged (e.g., uncovered --> dont do anything, because its uncovered)
+            
+    def get_rect(self):
+        return pygame.Rect(
+            self.x,
+            self.y,
+            self.size,
+            self.size
+        )
+        
+    def draw(self, screen):
+        border_width = 8
+        rect = self.get_rect()
+
+        if self.state == "covered":
+            pygame.draw.rect(screen, LIGHT_BLUE, rect, border_width) #Drawing a covered cell
+
+        elif self.state == "uncovered":
+            pygame.draw.rect(screen, GRAY, rect, border_width)
+            if self.mine:
+                pygame.draw.circle(screen, BLACK, rect.center, self.size // 2, width=0) #Drawing if a mine is clicked
+            
+            elif self.adjacent_mines > 0:
+                number = str(self.adjacent_mines)
+                font = pygame.font.SysFont(None, self.size)
+                display_number = font.render(number, True, BLACK)
+                screen.blit(screen, (self.x, self.y))
+
+        elif self.state == "flagged":
+            pygame.draw.rect(screen, RED, rect, border_width)
+        
+
 class board:
-    def __init__(self):
-        ...
+    def __init__(self, rows, cols, num_mines):
+        self.row = rows
+        self.col = cols
+        self.num_mines = num_mines
+
+        for r in range(self.row):
+            rows = []
+            for c in range(self.col):
+                ...                     #Instance of cell class 
 
 class game:
     ...
+
+
