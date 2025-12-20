@@ -1,7 +1,7 @@
 #Should store data about itself, such as whether it contains a mine, uncovered/covered/flagged, number of adjacent mines
 #
 class cell:
-    def __init__(self, row, col, x, y, size):
+    def __init__(self, row, col, x, y, size, border_width):
         self.col = col
         self.row = row
 
@@ -38,5 +38,12 @@ class cell:
     def get_rect(self):
         ...
     
-    def draw(self, screen):
-        ...
+    def draw(self, screen, x, y, size):
+        border_width = 8
+        size = screen_width // 10
+        if self.state == "covered":
+            pygame.draw.rect(screen, LIGHT_BLUE, (x, y, size, size), border_width) #Drawing a covered cell
+        elif self.state == "uncovered":
+            pygame.draw.rect(screen, GRAY, (x, y, size, size), border_width)
+        elif self.state == "flagged":
+            pygame.draw.rect(screen, RED, (x, y, size, size), border_width)
