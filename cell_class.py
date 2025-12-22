@@ -11,6 +11,16 @@ class cell:
         self.mine = False        #First set to False, then if cell is selected, change it to True
         self.state = "covered"   #Possible states: flagged, covered, uncovered
         self.adjacent_mines = 0  #Number of mines in cells next to it, integers 0 - 8
+    
+    def handle_mouse_input(self):
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1: #Left click
+                    self.reveal()
+                elif event.button == 3: #Right click
+                    self.toggle_flag()
+                elif event.button == 1 and event.button == 3:
+                    ... #IMPLEMENT LATER: Chord click functionality to reveal adjacent cells if number of flags around it equals the number on the cell
 
     def place_mine(self):        #Later in class board, when placing mines randomly, call this method
         self.mine = True
@@ -30,7 +40,7 @@ class cell:
         else:                            #If the cell that has been clicked is one with numbers 1-8. 
             return "CELL_WITH_NUMBER_REVEALED"
     
-    def toggle_flag(self):
+    def toggle_flag(self): #Toggle/Untoggle flag on a cell that is "covered"
         if self.state == "covered":
             self.state = "flagged"
         elif self.state == "flagged":
@@ -68,4 +78,3 @@ class cell:
 
         elif self.state == "flagged":
             pygame.draw.rect(screen, RED, rect, border_width)
-            
