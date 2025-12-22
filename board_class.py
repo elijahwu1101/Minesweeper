@@ -35,11 +35,26 @@ class board:
                     neighbors.append([new_r][new_c])
 
         return neighbors
+    
+    def calculate_adjacent_mines(self):
+
+        for r in range(self.rows):
+            for c in range(self.cols):
+                current_cell = self.grid[r][c]
+                
+                if not current_cell.mine:
+                    mine_count = 0
+
+                    neighbor_coords = self.get_neighbors(r, c)
+                    for new_r, new_c in neighbor_coords:
+
+                        neighbor_cell = self.grid[new_r][new_c]
+
+                        if neighbor_cell.mine:
+                            mine_count += 1
+
+                    current_cell.adjacent_mines = mine_count
 
 
     def place_mines(self):
         ...
-    
-    def calculate_adjacent_mines(self):
-        ...
-    
