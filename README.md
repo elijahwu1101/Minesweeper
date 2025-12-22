@@ -1,3 +1,3 @@
 # Minesweeper
-A minesweeper game. DEFINITELY NOT COMPLETED
+A minesweeper game. NOT COMPLETED
 - Working on it right now
