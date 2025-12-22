@@ -56,5 +56,24 @@ class board:
                     current_cell.adjacent_mines = mine_count
 
 
-    def place_mines(self):
-        ...
+    def place_mines(self, num_mines, row_mine, col_mine):
+        num_mines = 0
+
+        def choose_mine_cell():
+            row_mine = random.randint(0, self.rows - 1)
+            col_mine = random.randint(0, self.cols - 1)
+            return row_mine, col_mine
+
+        while num_mines < self.num_mines:
+            choose_mine_cell()
+
+            chosen_cells = [] #List to store already chosen cells
+
+            possible_cell = self.grid[row_mine][col_mine]
+
+            if possible_cell not in chosen_cells:
+                chosen_cells.append(possible_cell)
+            
+            elif possible_cell in chosen_cells:
+                continue  
+
