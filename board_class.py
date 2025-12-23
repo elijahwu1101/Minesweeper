@@ -1,3 +1,4 @@
+
 class board:
     def __init__(self, rows, cols, num_mines):
         self.rows = rows
@@ -76,4 +77,3 @@ class board:
             
             elif possible_cell in chosen_cells:
                 continue  
-
